@@ -25,8 +25,8 @@ apache_log_regex = re.compile(r'^(\S+)\s+\S+\s+(\S+)\s+\[(.*?)\]\s+"(\S+)\s+(\S+
 exim4_log_regex = re.compile(r'^(\S+)\s+\S+\s+(\S+)\s+<([^>]+)>\s+.*\s+id=.*\s+(.*):\s+(.*);\s+(.*)')
 
 # Log file paths
-apache_log_file = r'C:\Users\lilyi\Downloads\testlog.txt'
-exim4_log_file = r'D:\exim4\mainlog.2'
+apache_log_file = r'insert path here'
+exim4_log_file = r'insert path here'
 
 # Function to insert Apache log entries into the database
 def insert_apache_log_entry(log_entry):
