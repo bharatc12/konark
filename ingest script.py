@@ -76,5 +76,8 @@ try:
     print("Log entries inserted into the database.")
 except (Exception, psycopg2.Error) as error:
     print("Error while committing changes to the database:", error)
-
+# The result of executing this code is
+# lilyi/OneDrive/Documents/GitHub/bharatc12.github.io/ingest script.py"
+# Log entries inserted into the database.
 conn.close()
+
