@@ -1,0 +1,18 @@
+[apache]
+
+# Enable the Apache filter
+enabled = true
+
+# Path to Apache access log
+logpath = /documents/bharatc12/access.log
+
+# Number of failed attempts before banning an IP address
+maxretry = 3
+
+# Duration of the ban in seconds 
+bantime = 86400
+
+# destemail = bharat.choudhury34@gmail.com
+# sendername = Fail2Ban
+# sender = 
+
