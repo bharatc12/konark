@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Documentation</title>
+  <style>
+    /* CSS styles for documentation */
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      margin: 20px;
+    }
+    
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    
+    h2 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+    
+    h3 {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+    
+    p {
+      margin-bottom: 10px;
+    }
+    
+    code {
+      font-family: Consolas, monospace;
+      font-size: 14px;
+      background-color: #f2f2f2;
+      padding: 2px 4px;
+    }
+    
+    pre {
+      background-color: #f2f2f2;
+      padding: 10px;
+      overflow-x: auto;
+    }
+    
+    .section {
+      margin-bottom: 40px;
+    }
+    
+    .subsection {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Documentation</h1>
+
+  <div class="section">
+    <h2>Installing Apache</h2>
+    <p>How to install apache on to your web server</p>
+    
+    <div class="subsection">
+      <h3>Terminal Commands</h3>
+      <p>Open a terminal. Search for terminal in your apps</p>
+      <pre><code>Update the package lists by running the command: sudo apt update
+                 Install Apache by running the command: sudo apt install apache2
+      </code></pre>
+    </div>
+    
+    <div class="subsection">
+      <h3>Verifying Installation</h3>
+      <p>Open a web browser</p>
+      <pre><code>enter "http://localhost" or "http://127.0.0.1" in the address bar. 
+                If Apache is running properly, you should see the default Apache web page.</code></pre>
+    </div>
+  </div>
+  
+  <div class="section">
+    <h2>Configuring Apache</h2>
+    <p>This is how to configure the server</p>
+    
+    <div class="subsection">
+      <h3>Find and edit the configuration files</h3>
+      <p>Locate the Apache configuration files</p>
+      <pre><code>In Ubuntu or Debian, the main configuration file is located at /etc/apache2/apache2.conf.
+                 Type the follwing command to edit the configuration file 
+                 sudo nano /path/to/apache-config-file
+      </code></pre>
+    </div>
+    
+    <div class="subsection">
+      <h3>Subsection 2.2</h3>
+      <p>Type the following into the configuration files
+        Restart Apache to apply the new configuration:
+        sudo systemctl restart apache2
+
+      </p>
+      <pre><code>
+        # Set the server's IP address and port
+        Listen 80
+        
+        # Set the server's hostname
+        ServerName 'insert website name here'
+        
+        # Set the directory where website files are located
+        DocumentRoot 'Insert File Path Here'
+        
+        # Define the default file to look for when a directory is requested
+        DirectoryIndex insert.html insert.php
+        
+        # Enable the use of .htaccess files
+        <Directory /var/www/html>
+            AllowOverride All
+        </Directory>
+        
+        # Configure error logging
+        ErrorLog /var/log/apache2/error.log
+        LogLevel warn
+        
+        # Configure access logging
+        CustomLog /var/log/apache2/access.log combined
+        
+        # Configure virtual hosts
+        <VirtualHost *:80>
+            ServerName 'insert'
+            DocumentRoot 'insert file path'
+            <Directory 'insert file path'>
+                Options FollowSymLinks
+                AllowOverride All
+                Require all granted
+            </Directory>
+        </VirtualHost></code></pre>
+    </div>
+  </div>
+</body>
+</html>
