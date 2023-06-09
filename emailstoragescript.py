@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
+#built in moudule to python
 import sys
-import psycopg2
+#Module used to connect to postgres databases
+import psycopg2 
 
 # Connect to the PostgreSQL database
 db = psycopg2.connect(
