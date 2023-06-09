@@ -36,3 +36,6 @@ db.commit()
 
 #Close the database connection
 db.close()
+
+#to run this script
+#using the following command python emailstoragescript.py <mail_from_address> <rcpt_to_address>
