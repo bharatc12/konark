@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Documentation</title>
+  <style>
+    /* CSS styles for documentation */
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      margin: 20px;
+    }
+    
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    
+    h2 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+    
+    h3 {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+    
+    p {
+      margin-bottom: 10px;
+    }
+    
+    code {
+      font-family: Consolas, monospace;
+      font-size: 14px;
+      background-color: #f2f2f2;
+      padding: 2px 4px;
+    }
+    
+    pre {
+      background-color: #f2f2f2;
+      padding: 10px;
+      overflow-x: auto;
+    }
+    
+    .section {
+      margin-bottom: 40px;
+    }
+    
+    .subsection {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Documentation</h1>
+
+  <div class="section">
+    <h2>Installing Exim</h2>
+    <p>You need to type in the commands:
+        sudo apt update ,
+        sudo apt install exim4
+    </p>
+    
+    <div class="subsection">
+      <h3>Writing the Python Script</h3>
+      <p>First use python to write the following script that will insert email details into the database</p>
+      <pre><code>#!/usr/bin/env python
+
+        #built in module to python
+        import sys
+        #module used to connect to postgres
+        import psycopg2
+        
+        #Connect to the PostgreSQL database
+        db = psycopg2.connect(
+        host="localhost",
+        user="postgres",
+        password="t@rHB123",
+        database="emailstorage"
+        )
+        
+        #Obtain the necessary information from the script arguments
+        mail_from = sys.argv[1]
+        rcpt_to = sys.argv[2]
+        body = sys.stdin.read()
+        
+        #Check if the email is a relay email
+        is_relay = False
+        if "@" in mail_from and "@" in rcpt_to:
+        mail_from_domain = mail_from.split("@")[1]
+        rcpt_to_domain = rcpt_to.split("@")[1]
+        if mail_from_domain == rcpt_to_domain:
+        is_relay = True
+        
+        #Insert the email into the database if it is not a relay email
+        if not is_relay:
+        cursor = db.cursor()
+        query = "INSERT INTO email_logs (mail_from, rcpt_to, body) VALUES (%s, %s, %s)"
+        values = (mail_from, rcpt_to, body)
+        cursor.execute(query, values)
+        db.commit()
+        
+        #Close the database connection
+        db.close()
+        
+      </code></pre>
+    </div>
+    
+    <div class="subsection">
+      <h3>Making the python script executeable by setting the correct permissions</h3>
+      <p>You need to open a terminal for this and navigate to the directory where your script is located using cd</p>
+      <pre><code>
+       run this: chmod +x emailstoragescript.py
+       now verify the permissions by running "ls -l" command
+      </code></pre>
+    </div>
+  </div>
+  
+  <div class="section">
+    <h2>Configuring Exim </h2>
+    <p>Configure Exim's system filter to invoke the Python script when an email is received or sent. </p>
+    
+    <div class="subsection">
+      <h3>Locate the relevant section in the Exim configuration file and add a line similar to the following:</h3>
+      <p>Replace /path/to/script.py with the actual path to your Python script.</p>
+      <pre><code>system_filter = /path/to/script.py ${sender_address} ${recipients}
+      </code></pre>
+    </div>
+    
+    <div class="subsection">
+      <h3>Save the changes to the Exim configuration file.</h3>
+      <p>Restart the Exim service for the configuration changes to take effect.</p>
+      <pre><code> now, whenever an email is sent or received by the Exim4 email server, the system filter will run the Python script above with the arguments, 
+        including the sender's email address and the recipients email addresses. 
+        The Python script will then connect to the PostgreSQL database and insert the email details.
+       </code></pre>
+    </div>
+  </div>
+</body>
+</html>
