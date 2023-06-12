@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#use this command chmod +x block_port_scanner.sh
+
 # Define the threshold for port scanning detection
 THRESHOLD=10
 
