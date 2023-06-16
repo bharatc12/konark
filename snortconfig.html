@@ -90,6 +90,8 @@
        The following will detect HTTP Requests:
        alert tcp any any -> any 80 (msg:"HTTP Request Method Detected"; flow:to_server,established; content:"GET"; http_method; sid:100001;)
        The following will detect a cross site scripting attack 
+       The following will detect a command injection attack:
+       alert tcp any any -> any any (msg:"Possible Command Injection Attack Detected"; content:"|"; pcre:"/(;|\||`|&|\$\(.*?\))/"; sid:100008;)
       
 
       </code></pre>
