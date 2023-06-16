@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Documentation</title>
+  <style>
+    /* CSS styles for documentation */
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      margin: 20px;
+    }
+    
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    
+    h2 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+    
+    h3 {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+    
+    p {
+      margin-bottom: 10px;
+    }
+    
+    code {
+      font-family: Consolas, monospace;
+      font-size: 14px;
+      background-color: #f2f2f2;
+      padding: 2px 4px;
+    }
+    
+    pre {
+      background-color: #f2f2f2;
+      padding: 10px;
+      overflow-x: auto;
+    }
+    
+    .section {
+      margin-bottom: 40px;
+    }
+    
+    .subsection {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Documentation</h1>
+
+  <div class="section">
+    <h2>Configuring Snort For Linux</h2>
+    <p> The configuration file is usually located at the path: 
+        /etc/snort/snort.conf. 
+        The following command creates a copy to edit:
+        sudo cp /etc/snort/snort.conf /etc/snort/snort.local.conf
+    </p>
+    
+    <div class="subsection">
+      <h3>Configure network interfaces: </h3>
+      <p>Identify the network interface you want Snort to monitor</p>
+      <pre><code>Update the configuration file to specify the interface under the var HOME_NET variable.
+         For example, var HOME_NET (Your ip range here). 
+      </code></pre>
+    </div>
+    
+    <div class="subsection">
+      <h3>Enabling Rules and Preprocessors</h3>
+      <p>write the Snort rules in the Rules section.
+        This is usally towards the end of the file
+      </p>
+      <pre><code>
+       The following will detect TCP port scanning:
+       alert tcp any any -> $HOME_NET any (flags: S; detection_filter: track by_dst, count 5, seconds 10; msg: "TCP Port Scanning Detected"; sid: 100001;)
+       The following will detect SQL Injection:
+       alert tcp $EXTERNAL_NET any -> $SQL_SERVERS $HTTP_PORTS (msg:"SQL Injection Attempt"; flow:to_server,established; content:"'"; pcre:"/((\%27)|(\'))((\%6F)|o|(\%4F))((\%72)|r|(\%52))/i"; sid:100002;)
+       The following will detect SSH brute forcing:
+       alert tcp $EXTERNAL_NET any -> $HOME_NET 22 (msg:"SSH Bruteforce Attempt"; flow:to_server,established; content:"SSH-"; pcre:"/failed|error|invalid/i"; sid:100003;)
+       The following will detect UDP port scanning:
+       alert udp any any -> $HOME_NET any (flags:S; detection_filter: track by_src, count 5, seconds 10; msg:"UDP Port Scanning Detected"; sid:100001;)
+       The following will detect a DDos attack:
+       alert tcp any any -> $HOME_NET any (flags:S; detection_filter: track by_src, count 100, seconds 10; msg:"DDoS Attack Detected"; sid:100001;)
+       The following will detect HTTP Requests:
+       alert tcp any any -> any 80 (msg:"HTTP Request Method Detected"; flow:to_server,established; content:"GET"; http_method; sid:100001;)
+       The following will detect a cross site scripting attack 
+      
+
+      </code></pre>
+    </div>
+  </div>
+  
+  <div class="section">
+    <h2>Setting the Output Options </h2>
+    <p>You want to set the snort alerts to go to a log file for storage and later analysis</p>
+    
+    <div class="subsection">
+      <h3>Locate the file path of the snort configuration file</h3>
+      <p>insert the name of your log file in place of alert.log</p>
+      <pre><code>Look for the section that specifies the output configuration. 
+        It typically begins with the word output followed by various output options.
+         Uncomment or modify the appropriate line to enable logging to a file. For example:
+         output alert_csv: alert.log
+         Now save and restart snort
+      </code></pre>
+    </div>
+    
+    <div class="subsection">
+      <h3>Test Snort configuration</h3>
+      <p>Test your configuration for any syntax errors using the following command</p>
+      <pre><code>
+        sudo snort -T -c /etc/snort/snort.local.conf
+        The following command will start up snort:
+        sudo snort -c /etc/snort/snort.local.conf -i (insert interface here)
+       </code></pre>
+    </div>
+  </div>
+</body>
+</html>
