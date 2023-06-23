@@ -87,7 +87,7 @@ syslog_file = "/var/log/syslog"
 with open(syslog_file, "r") as file:
     for line in file:
         # Parse the log entry and extract relevant fields
-        # Adjust the regular expression pattern based on the syslog format in your system
+       
         pattern = r'(\w{3}\s+\d{1,2}\s\d{2}:\d{2}:\d{2})\s(\S+)\s(\S+):\s(.*)'
         match = re.match(pattern, line)
         if match:
@@ -104,7 +104,6 @@ auth_log_file = "/var/log/auth.log"
 with open(auth_log_file, "r") as file:
     for line in file:
         # Parse the log entry and extract relevant fields
-        # Adjust the regular expression pattern based on the auth.log format in your system
         pattern = r'(\w{3}\s+\d{1,2}\s\d{2}:\d{2}:\d{2})\s(\S+)\s(\S+):\s(.*)'
         match = re.match(pattern, line)
         if match:
@@ -138,7 +137,7 @@ daemon_log_file = "/var/log/daemon.log"
 with open(daemon_log_file, "r") as file:
     for line in file:
         # Parse the log entry and extract relevant fields
-        # Adjust the regular expression pattern based on the daemon.log format in your system
+       
         pattern = r'(\w{3}\s+\d{1,2}\s\d{2}:\d{2}:\d{2})\s(\S+)\s(\S+):\s(.*)'
         match = re.match(pattern, line)
         if match:
@@ -155,7 +154,7 @@ dpkg_log_file = "/var/log/dpkg.log"
 with open(dpkg_log_file, "r") as file:
     for line in file:
         # Parse the log entry and extract relevant fields
-        # Adjust the regular expression pattern based on the dpkg.log format in your system
+       
         pattern = r'(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\s(\S+)\s(\S+)\s(\S+)\s(\S+)\s(\S+)'
         match = re.match(pattern, line)
         if match:
