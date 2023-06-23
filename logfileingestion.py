@@ -3,10 +3,10 @@ import re
 from datetime import datetime
 
 # Define database connection details
-db_host = "your_database_host"
-db_name = "your_database_name"
-db_user = "your_username"
-db_password = "your_password"
+db_host = ""
+db_name = ""
+db_user = ""
+db_password = ""
 
 # Connect to the database
 conn = psycopg2.connect(
