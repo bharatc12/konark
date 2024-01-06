@@ -13,7 +13,5 @@
 	fi
         
 		
-		#Execute permissions not a part of this Script
-		chmod +x matrix_multiply.cgi
-		chmod +x matrix_multiply
+		
       
